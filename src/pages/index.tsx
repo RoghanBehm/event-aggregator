@@ -1,5 +1,13 @@
 import { GetServerSideProps } from 'next';
 
+interface Image {
+  ratio: string;
+  url: string;
+  width: number;
+  height: number;
+  fallback: boolean;
+}
+
 interface Event {
   name: string;
   dates: {
@@ -8,6 +16,7 @@ interface Event {
     };
   };
   url: string;
+  images: Image[];
 }
 
 interface HomeProps {
@@ -32,21 +41,25 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const Home: React.FC<HomeProps> = ({ events }) => {
   return (
-    <div>
+    <div className='ticketmaster-cont'>
       <h1>Events in {events.length > 0 ? events[0].name : 'Your City'}</h1>
-      {events.length > 0 ? (
-        events.map((event, index) => (
-          <div key={index}>
-            <h2>{event.name}</h2>
-            <p>{event.dates.start.localDate}</p>
-            <a href={event.url} target="_blank" rel="noopener noreferrer">
-              View Event
-            </a>
-          </div>
-        ))
-      ) : (
-        <p>No events found for the selected city.</p>
-      )}
+      <div className="ticketmaster-events">
+        {events.length > 0 ? (
+            events.map((event, index) => (
+            <div className="event" key={index}>
+                <h2 className='event-title'>{event.name}</h2>
+                <p>{event.dates.start.localDate}</p>
+                <a href={event.url} target="_blank" rel="noopener noreferrer">
+                View Event
+                </a>
+                <img src={event.images[0].url} alt={event.name} />
+            </div>
+            ))
+        ) : (
+            <p>No events found for the selected city.</p>
+        )}
+      </div>
+
     </div>
   );
 };
