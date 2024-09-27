@@ -92,13 +92,13 @@ const EventCard: React.FC<{ event: Event }> = ({ event }) => {
   return (
     <Card className="event w-[350px] h-auto">
     <CardHeader>
-      {/* Applying the ref to the actual DOM element through CardTitle */}
+      {/* Applying the ref to the DOM element through CardTitle */}
       <div className="top-row relative">
         <CardTitle ref={titleRef} className="ticketmaster-title line-clamp-1 overflow-hidden">
           {event.name}
         </CardTitle>
 
-        {/* Conditionally render "Read More" button if title is truncated */}
+        {/* Conditionally render toggle if text is truncated */}
         {isTruncated && (
           <Toggle aria-label="Toggle bold" className="absolute right-0 top-1/2 transform -translate-y-1/2">
             <ChevronDownIcon className="h-4 w-4" />
