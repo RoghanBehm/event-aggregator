@@ -1,4 +1,27 @@
 import { GetServerSideProps } from 'next';
+import * as React from "react"
+ 
+import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import Link from 'next/link';
+ 
 
 interface Image {
   ratio: string;
@@ -42,23 +65,38 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const Home: React.FC<HomeProps> = ({ events }) => {
   return (
     <div className='ticketmaster-cont'>
-      <h1>Events in {events.length > 0 ? events[0].name : 'Your City'}</h1>
+      <h1>Ticketmaster Events</h1>
       <div className="ticketmaster-events">
         {events.length > 0 ? (
             events.map((event, index) => (
             <div className="event" key={index}>
-                <h2 className='event-title'>{event.name}</h2>
-                <p>{event.dates.start.localDate}</p>
-                <a href={event.url} target="_blank" rel="noopener noreferrer">
-                View Event
-                </a>
-                <img src={event.images[0].url} alt={event.name} />
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle className='line-clamp-1'>{event.name}</CardTitle>
+        <CardDescription>{event.dates.start.localDate}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <img 
+          src={event.images[0].url}
+          alt={event.name}
+          className="object-cover w-full h-48"
+         />
+      </CardContent>
+      <CardFooter className="flex justify-between">
+      <Link href={event.url} className={buttonVariants({ variant: "outline" })}>View Event</Link>
+      <Link href={event.url} className={buttonVariants({ variant: "secondary" })}>More Details</Link>
+
+      </CardFooter>
+    </Card>
             </div>
             ))
         ) : (
             <p>No events found for the selected city.</p>
         )}
       </div>
+
+
+  
 
     </div>
   );
