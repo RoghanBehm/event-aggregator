@@ -70,6 +70,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 
+
+
 const Home: React.FC<HomeProps> = ({ events }) => {
   return (
     <div className="ticketmaster-cont">
@@ -86,6 +88,13 @@ const Home: React.FC<HomeProps> = ({ events }) => {
 };
 
 const EventCard: React.FC<{ event: Event }> = ({ event }) => {
+
+  const [isClassRemoved, setIsClassRemoved] = useState(false);
+
+  const handleToggleClick = () => {
+    setIsClassRemoved(prev => !prev); // Toggle state (bool)
+  };
+
   const titleRef = useRef<HTMLHeadingElement>(null);
   const isTruncated = useIsTruncated(titleRef); // Hook to check if the text is truncated
 
@@ -94,13 +103,18 @@ const EventCard: React.FC<{ event: Event }> = ({ event }) => {
     <CardHeader>
       {/* Applying the ref to the DOM element through CardTitle */}
       <div className="top-row relative">
-        <CardTitle ref={titleRef} className="ticketmaster-title line-clamp-1 overflow-hidden">
+        <CardTitle ref={titleRef}  className={`ticketmaster-title ${!isClassRemoved ? 'line-clamp-1' : ''}`}>
           {event.name}
         </CardTitle>
 
         {/* Conditionally render toggle if text is truncated */}
         {isTruncated && (
-          <Toggle aria-label="Toggle bold" className="absolute right-0 top-1/2 transform -translate-y-1/2">
+          <Toggle 
+            aria-label="Toggle bold" 
+            className="absolute right-0 top-1/2 transform -translate-y-1/2" 
+            onClick={handleToggleClick}
+            data-state={isClassRemoved ? "on" : "off"}
+          >
             <ChevronDownIcon className="h-4 w-4" />
           </Toggle>
         )}
