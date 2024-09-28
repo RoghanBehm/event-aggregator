@@ -1,4 +1,9 @@
-function getUserLocation() {
+interface UserLocation {
+    latitude: number;
+    longitude: number;
+}
+
+function getUserLocation(): Promise<UserLocation> {
     return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
